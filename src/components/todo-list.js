@@ -1,21 +1,16 @@
 import React, { useReducer, useRef } from 'react';
-import { v4 as uuid } from 'uuid';
 import { TodoItem } from './todo-item';
 
 export function TodoList(props) {
-	// State
 	const [state, dispatch] = useReducer(reducer, props.items);
-	// Refs
 	const itemInput = useRef(null);
 
-	// State reducer
 	function reducer(state, action) {
-		// Clone the state in order to mutate it
-		const newState = Object.assign({}, state);
+		const newState = Array.from(state);
 
 		switch (action.type) {
 			case 'ADD_ITEM':
-				newState[uuid()] = action.item;
+				newState.push(action.item);
 				break;
 			case 'DELETE_ITEM':
 				delete newState[action.key];
@@ -30,10 +25,10 @@ export function TodoList(props) {
 				newState[action.key].done = action.done;
 				break;
 		}
+
 		return newState;
 	}
 
-	// Creates a dispatch function for a specific item
 	function dispatchFactory(key) {
 		return (...actions) => {
 			if (actions.length === 1 && actions[0].constructor === Array) {
@@ -43,28 +38,28 @@ export function TodoList(props) {
 		};
 	}
 
-	// Event listeners
-	function onFormSubmit(e) {
+	function handleSubmit(e) {
 		e.preventDefault();
+
 		const content = itemInput.current.value;
 		if (content.replace(/\s/g, '').length === 0) {
 			return;
 		}
+
 		const item = { content, date: new Date() };
 		dispatch({ type: 'ADD_ITEM', item });
 		itemInput.current.value = '';
 	}
 
-	// Sort items by date and create a list of elements to render
-	const itemsToRender = Object.keys(state)
-		.sort((curr, next) => state[next].date - state[curr].date)
-		.map((key) => (
-			<TodoItem item={state[key]} key={key} dispatch={dispatchFactory(key)} />
+	const itemsToRender = state
+		.sort((curr, next) => next.date - curr.date)
+		.map((item, idx) => (
+			<TodoItem key={idx} item={item} dispatch={dispatchFactory(idx)} />
 		));
 
 	return (
 		<div className="todo-list">
-			<form className="item-form" onSubmit={onFormSubmit}>
+			<form className="item-form" onSubmit={handleSubmit}>
 				<span>Add item: </span>
 				<input type="text" id="item-content" ref={itemInput} />
 				<input type="submit" value="Add" />
