@@ -21,8 +21,14 @@ export function TodoItem(props) {
 
 	function handleFormSubmit(e) {
 		e.preventDefault();
+
+		const content = contentInput.current.value;
+		if (content.replace(/\s/g, '').length === 0) {
+			return;
+		}
+
 		dispatch(
-			{ type: 'SET_CONTENT', content: contentInput.current.value },
+			{ type: 'SET_CONTENT', content },
 			{ type: 'SET_DATE', date: new Date() },
 		);
 		setEditing(false);

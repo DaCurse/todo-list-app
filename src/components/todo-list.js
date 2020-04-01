@@ -3,7 +3,7 @@ import { dispatchFactory, todoListReducer } from './reducers/todo-list-reducer';
 import { TodoItem } from './todo-item';
 
 export function TodoList(props) {
-	const [state, dispatch] = useReducer(todoListReducer, props.items);
+	const [state, dispatch] = useReducer(todoListReducer, props.items || []);
 	const itemInput = useRef(null);
 
 	function handleSubmit(e) {
