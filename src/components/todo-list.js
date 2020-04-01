@@ -13,7 +13,7 @@ export function TodoList(props) {
 				newState.push(action.item);
 				break;
 			case 'DELETE_ITEM':
-				delete newState[action.key];
+				newState.splice(action.key, 1);
 				break;
 			case 'SET_CONTENT':
 				newState[action.key].content = action.content;
