@@ -1,0 +1,12 @@
+.todo-item .content {
+	display: inline-block;
+}
+
+.todo-item .content-body {
+	cursor: pointer;
+}
+
+.todo-item.done .content-body {
+	text-decoration: line-through;
+	cursor: default;
+}
