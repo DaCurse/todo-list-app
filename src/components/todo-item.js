@@ -3,63 +3,57 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../css/todo-item.scss';
 
 export function TodoItem(props) {
-	// State
 	const { content, date, done } = props.item;
 	const dispatch = props.dispatch;
 	const [editing, setEditing] = useState(false);
-	// Refs
 	const contentInput = useRef(null);
 
-	// Event listeners
-	function onCheckboxChange(e) {
+	function handleCheckboxChange(e) {
 		dispatch({ type: 'SET_DONE', done: e.target.checked });
 	}
 
-	function onContentClick() {
+	function handleContentClick() {
 		if (done) {
 			return;
 		}
 		setEditing(true);
 	}
 
-	function onInputChange(e) {
+	function handleFormSubmit(e) {
+		e.preventDefault();
 		dispatch([
-			{ type: 'SET_CONTENT', content: e.target.value },
+			{ type: 'SET_CONTENT', content: contentInput.current.value },
 			{ type: 'SET_DATE', date: new Date() },
 		]);
-	}
-
-	function onInputKeyDown(e) {
-		if (e.key !== 'Enter') {
-			return;
-		}
 		setEditing(false);
 	}
 
-	// Effects
 	useEffect(() => {
 		if (editing) {
+			contentInput.current.value = content;
 			contentInput.current.select();
 		}
 	}, [editing]);
 
 	return (
 		<div className={classNames('todo-item', { done })}>
-			<input type="checkbox" onChange={onCheckboxChange} />
+			<input type="checkbox" onChange={handleCheckboxChange} />
 			<div className="content">
-				<div className="content-body" onClick={onContentClick} hidden={editing}>
+				<div
+					className="content-body"
+					onClick={handleContentClick}
+					hidden={editing}
+				>
 					{content}
 				</div>
-				<input
-					type="text"
-					className="content-input"
-					ref={contentInput}
-					value={content}
-					onChange={onInputChange}
-					onKeyDown={onInputKeyDown}
-					onBlur={() => setEditing(false)}
-					hidden={!editing}
-				/>
+				<form onSubmit={handleFormSubmit} hidden={!editing}>
+					<input
+						type="text"
+						className="content-input"
+						ref={contentInput}
+						onBlur={() => setEditing(false)}
+					/>
+				</form>
 			</div>
 			<div className="footer">
 				<span className="date">{date.toLocaleString()} </span>
