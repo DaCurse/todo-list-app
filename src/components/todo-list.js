@@ -1,42 +1,10 @@
 import React, { useReducer, useRef } from 'react';
+import { dispatchFactory, todoListReducer } from './reducers/todo-list-reducer';
 import { TodoItem } from './todo-item';
 
 export function TodoList(props) {
-	const [state, dispatch] = useReducer(reducer, props.items);
+	const [state, dispatch] = useReducer(todoListReducer, props.items);
 	const itemInput = useRef(null);
-
-	function reducer(state, action) {
-		const newState = Array.from(state);
-
-		switch (action.type) {
-			case 'ADD_ITEM':
-				newState.push(action.item);
-				break;
-			case 'DELETE_ITEM':
-				newState.splice(action.key, 1);
-				break;
-			case 'SET_CONTENT':
-				newState[action.key].content = action.content;
-				break;
-			case 'SET_DATE':
-				newState[action.key].date = action.date;
-				break;
-			case 'SET_DONE':
-				newState[action.key].done = action.done;
-				break;
-		}
-
-		return newState;
-	}
-
-	function dispatchFactory(key) {
-		return (...actions) => {
-			if (actions.length === 1 && actions[0].constructor === Array) {
-				actions = actions[0];
-			}
-			actions.forEach((action) => dispatch({ ...action, key }));
-		};
-	}
 
 	function handleSubmit(e) {
 		e.preventDefault();
@@ -46,15 +14,19 @@ export function TodoList(props) {
 			return;
 		}
 
-		const item = { content, date: new Date() };
+		const item = { content, date: new Date(), done: false };
 		dispatch({ type: 'ADD_ITEM', item });
-		itemInput.current.value = '';
+		e.target.reset();
 	}
 
 	const itemsToRender = state
 		.sort((curr, next) => next.date - curr.date)
 		.map((item, idx) => (
-			<TodoItem key={idx} item={item} dispatch={dispatchFactory(idx)} />
+			<TodoItem
+				key={idx}
+				item={item}
+				dispatch={dispatchFactory(dispatch, idx)}
+			/>
 		));
 
 	return (

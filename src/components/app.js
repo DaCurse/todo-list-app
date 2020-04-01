@@ -5,9 +5,9 @@ import { TodoList } from './todo-list';
 export function App() {
 	// Some sample items
 	const items = [
-		{ content: 'Hello World', date: new Date() },
-		{ content: 'Lorem ipsum', date: new Date('6/10/2002') },
-		{ content: '123456789', date: new Date(0) },
+		{ content: 'Hello World', date: new Date(), done: false },
+		{ content: 'Lorem ipsum', date: new Date('6/10/2002'), done: false },
+		{ content: '123456789', date: new Date(0), done: false },
 	];
 
 	return (

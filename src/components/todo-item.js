@@ -21,10 +21,10 @@ export function TodoItem(props) {
 
 	function handleFormSubmit(e) {
 		e.preventDefault();
-		dispatch([
+		dispatch(
 			{ type: 'SET_CONTENT', content: contentInput.current.value },
 			{ type: 'SET_DATE', date: new Date() },
-		]);
+		);
 		setEditing(false);
 	}
 
@@ -37,7 +37,7 @@ export function TodoItem(props) {
 
 	return (
 		<div className={classNames('todo-item', { done })}>
-			<input type="checkbox" onChange={handleCheckboxChange} />
+			<input type="checkbox" onChange={handleCheckboxChange} checked={done} />
 			<div className="content">
 				<div
 					className="content-body"
