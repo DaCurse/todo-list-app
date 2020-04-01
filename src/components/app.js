@@ -8,7 +8,7 @@ export function App() {
 	const items = {};
 	items[uuid()] = { content: 'Hello World', date: new Date() };
 	items[uuid()] = { content: 'Lorem ipsum', date: new Date('6/10/2002') };
-	items[uuid()] = { content: 'Lorem ipsum', date: new Date(0) };
+	items[uuid()] = { content: '123456789', date: new Date(0) };
 
 	return (
 		<div className="app">

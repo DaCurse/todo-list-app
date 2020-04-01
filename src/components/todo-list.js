@@ -17,6 +17,9 @@ export function TodoList(props) {
 			case 'ADD_ITEM':
 				newState[uuid()] = action.item;
 				break;
+			case 'DELETE_ITEM':
+				delete newState[action.key];
+				break;
 			case 'SET_CONTENT':
 				newState[action.key].content = action.content;
 				break;
@@ -62,7 +65,7 @@ export function TodoList(props) {
 	return (
 		<div className="todo-list">
 			<form className="item-form" onSubmit={onFormSubmit}>
-				<label htmlFor="item-content">Add item: </label>
+				<span>Add item: </span>
 				<input type="text" id="item-content" ref={itemInput} />
 				<input type="submit" value="Add" />
 			</form>

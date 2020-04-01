@@ -61,7 +61,15 @@ export function TodoItem(props) {
 					hidden={!editing}
 				/>
 			</div>
-			<div className="date">{date.toLocaleString()}</div>
+			<div className="footer">
+				<span className="date">{date.toLocaleString()} </span>
+				<button
+					className="delete-item"
+					onClick={() => dispatch({ type: 'DELETE_ITEM' })}
+				>
+					Delete
+				</button>
+			</div>
 		</div>
 	);
 }
