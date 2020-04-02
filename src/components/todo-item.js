@@ -52,7 +52,11 @@ export function TodoItem(props) {
 				>
 					{content}
 				</div>
-				<form onSubmit={handleFormSubmit} hidden={!editing}>
+				<form
+					className="edit-item-form"
+					onSubmit={handleFormSubmit}
+					hidden={!editing}
+				>
 					<input
 						type="text"
 						className="content-input"
@@ -62,7 +66,9 @@ export function TodoItem(props) {
 				</form>
 			</div>
 			<div className="footer">
-				<span className="date">{date.toLocaleString()} </span>
+				<span className="date">
+					{date ? date.toLocaleString() : 'Invalid date'}{' '}
+				</span>
 				<button
 					className="delete-item"
 					onClick={() => dispatch({ type: 'DELETE_ITEM' })}

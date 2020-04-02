@@ -6,7 +6,7 @@ export function TodoList(props) {
 	const [state, dispatch] = useReducer(todoListReducer, props.items || []);
 	const itemInput = useRef(null);
 
-	function handleSubmit(e) {
+	function handleFormSubmit(e) {
 		e.preventDefault();
 
 		const content = itemInput.current.value;
@@ -31,9 +31,9 @@ export function TodoList(props) {
 
 	return (
 		<div className="todo-list">
-			<form className="item-form" onSubmit={handleSubmit}>
-				<span>Add item: </span>
-				<input type="text" id="item-content" ref={itemInput} />
+			<form className="add-item-form" onSubmit={handleFormSubmit}>
+				<label>Add item: </label>
+				<input type="text" className="item-content" ref={itemInput} />
 				<input type="submit" value="Add" />
 			</form>
 			<div className="items">{itemsToRender}</div>
