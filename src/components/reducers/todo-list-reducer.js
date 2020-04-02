@@ -8,14 +8,12 @@ export function todoListReducer(state, action) {
 		case 'DELETE_ITEM':
 			newState.splice(action.key, 1);
 			break;
-		case 'SET_CONTENT':
-			newState[action.key].content = action.content;
-			break;
-		case 'SET_DATE':
-			newState[action.key].date = action.date;
-			break;
-		case 'SET_DONE':
-			newState[action.key].done = action.done;
+		case 'UPDATE_ITEM':
+			for (let field in newState[action.key]) {
+				if (field in action.item) {
+					newState[action.key][field] = action.item[field];
+				}
+			}
 			break;
 	}
 
@@ -23,6 +21,5 @@ export function todoListReducer(state, action) {
 }
 
 export function dispatchFactory(dispatch, key) {
-	return (...actions) =>
-		actions.forEach((action) => dispatch({ ...action, key }));
+	return (action) => dispatch({ ...action, key });
 }

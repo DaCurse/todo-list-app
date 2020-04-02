@@ -8,8 +8,7 @@
 	"scripts": {
 		"build": "webpack --mode=\"production\"",
 		"start": "webpack-dev-server --open",
-		"preformat": "prettier --write \"src/**/*.js\"",
-		"format": "node organize-imports \"src/**/*.js\"",
+		"prelint": "prettier --write \"src/**/*.js\" && node organize-imports \"src/**/*.js\"",
 		"lint": "eslint \"!(dist|node_modules)/**/*.js\" --fix"
 	},
 	"dependencies": {

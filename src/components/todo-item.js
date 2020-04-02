@@ -7,9 +7,13 @@ export function TodoItem(props) {
 	const dispatch = props.dispatch;
 	const [editing, setEditing] = useState(false);
 	const contentInput = useRef(null);
+	window.dispatch = dispatch;
 
 	function handleCheckboxChange(e) {
-		dispatch({ type: 'SET_DONE', done: e.target.checked });
+		dispatch({
+			type: 'UPDATE_ITEM',
+			item: { done: e.target.checked },
+		});
 	}
 
 	function handleContentClick() {
@@ -22,15 +26,15 @@ export function TodoItem(props) {
 	function handleFormSubmit(e) {
 		e.preventDefault();
 
-		const content = contentInput.current.value;
-		if (content.replace(/\s/g, '').length === 0) {
+		const newContent = contentInput.current.value;
+		if (newContent.replace(/\s/g, '').length === 0) {
 			return;
 		}
 
-		dispatch(
-			{ type: 'SET_CONTENT', content },
-			{ type: 'SET_DATE', date: new Date() },
-		);
+		dispatch({
+			type: 'UPDATE_ITEM',
+			item: { content: newContent, date: new Date() },
+		});
 		setEditing(false);
 	}
 
